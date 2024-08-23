@@ -1,0 +1,22 @@
+jQuery(document).ready(function () {
+    jQuery('.rightel-tab').parent().css('padding', '40px 0 0 0')
+    var navTabItems = jQuery(".rightel-tab .tab-nav > .item");
+    navTabItems.click(function() {
+        var current = jQuery(this);
+        var finder = current.data("item");
+        if(!current.hasClass("active")) {
+            current.parent().children(".item").removeClass("active");
+            current.addClass("active")
+            current.parent().parent().parent().parent().next().children(".item").fadeOut(500);
+            current.parent().parent().parent().parent().next().children(".item."+finder+"").delay(500).fadeIn(500);
+        }
+    });
+    
+    if(window.location.hash && window.location.hash.split('-')[0] == '#tab') {
+        jQuery('.rightel-tab .tab-nav > .item').removeClass("active");
+        jQuery('.rightel-tab .tab-nav > .item[tab-item="'+window.location.hash+'"]').addClass("active");
+    
+        jQuery('.rightel-tab .tab-content > .item').css("display", "none");
+        jQuery('.rightel-tab .tab-content > .item.'+jQuery('.rightel-tab .tab-nav > .item[tab-item="'+window.location.hash+'"]').attr('data-item')+'').css("display", "block");
+    }
+});

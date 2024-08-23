@@ -1,0 +1,24 @@
+jQuery(".rightel-accordion .accordion-body").each(function() {
+    var current = jQuery(this);
+    if(current.find('.accordion-nav').width() < current.find('.accordion-nav .text').width()) {
+        current.addClass('fixed-width');
+    }
+});
+
+jQuery(document).on("click", ".rightel-accordion .accordion-nav > .acc-item", function() {
+    var current = jQuery(this);
+    if(!current.parent().parent().hasClass("active")) {
+        current.parent().parent().parent().children(".accordion-body").removeClass("active");
+        current.parent().parent().addClass("active");
+        current.parent().parent().parent().children(".accordion-body").find(".accordion-content .acc-item").slideUp(500);
+        current.parent().next().find(".acc-item").slideDown(500);
+        setTimeout(function() {
+            jQuery("html, body").animate({
+                scrollTop: current.offset().top - 50,
+            }, 1000);
+        }, 500);
+    } else {
+        current.parent().parent().parent().children(".accordion-body").removeClass("active");
+        current.parent().parent().parent().children(".accordion-body").find(".accordion-content .acc-item").slideUp(500);
+    }
+});

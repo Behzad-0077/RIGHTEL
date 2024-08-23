@@ -1,0 +1,381 @@
+jQuery(document).ready(function () {
+    jQuery(".main-menu a").each(function() {
+        var currentLink = jQuery(this);
+        if(currentLink.attr("href") == "#!" || currentLink.attr("href") == "#" || currentLink.attr("href") == "") {
+            currentLink.removeAttr("href").css("cursor", "grab");
+        }
+    });
+
+    /* Language Switcher */
+    jQuery(".lang.english .lang-item-fa").remove();
+    jQuery(".lang.english .lang-item-en > a").html(`EN`);
+    jQuery(".lang.english .lang-item-en > a").addClass("top-bar__button_dark");
+    jQuery(".lang.persian .lang-item-en").remove();
+    jQuery(".lang.persian .lang-item-fa > a").html(`فا`);
+    jQuery(".lang.persian .lang-item-fa > a").addClass("top-bar__button_dark");
+
+    if(document.querySelector('.page-type') != null && document.querySelector('.page-type').classList.contains('is-search')) {
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+        });
+        
+        let valueOnLoad = params.s;
+
+        if(document.querySelector('.lang-item a').getAttribute('hreflang') == 'en-US') {            
+            document.querySelector('.lang-item a').setAttribute('href', '/en/?s='+valueOnLoad); 
+        } else if(document.querySelector('.lang-item a').getAttribute('hreflang') == 'fa-IR') {
+            document.querySelector('.lang-item a').setAttribute('href', '/?s='+valueOnLoad); 
+        }
+    }
+    
+    /* Search Mobile Version */
+    jQuery(".search-box-mobile").submit(function(event) {
+        var current = jQuery(this);
+        if(jQuery(".search-box-mobile").find("input").first().val() !== "") {
+          return;
+        }
+        current.find("button").toggleClass("active");
+        current.find("form").toggleClass("active");
+        event.preventDefault();
+    });
+});
+
+mobileMenu();
+jQuery(window).resize(function() {
+    mobileMenu();
+});
+
+jQuery(document).on('click', '.toggle-menu', function() {
+    var current = jQuery(this);
+    if(jQuery(window).width() < 992) {
+        current.parents("body").css("overflow", "hidden");
+        current.parents("body").find(".back-darck").css("display", "block");
+        current.parents("body").find(".navbar").addClass("active");
+        if(jQuery('html').attr('lang') == 'en-US') {
+            jQuery('.navbar > ul').prepend(`
+                <li class="not-menu-item">
+                    <div>
+                        <svg class="logo-slide" width="47" height="46" viewBox="0 0 47 46" fill="none">
+                            <g clip-path="url(#clip0_2535_740)">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M23.9528 0C11.2394 0 0.939453 10.2863 0.939453 22.983C0.939453 35.6797 11.2394 45.966 23.9528 45.966C36.6662 45.966 46.9661 35.6797 46.9661 22.983C47.0001 10.2863 36.7002 0 23.9528 0ZM32.621 35.1365C29.5276 38.2598 25.2105 40.1609 20.4855 40.1609C15.7264 40.1609 11.4433 38.2258 8.34994 35.1365C5.22258 32.0133 3.31897 27.7358 3.31897 22.983C3.31897 18.2303 5.25657 13.9528 8.34994 10.8635C11.4433 7.77417 15.7604 5.83911 20.4855 5.83911C25.2105 5.83911 29.5276 7.77417 32.621 10.8635C35.7144 13.9528 37.652 18.2642 37.652 22.983C37.652 27.7358 35.7484 32.0133 32.621 35.1365Z" fill="white"/>
+                                <path d="M22.7631 10.3204C29.7656 10.3204 35.4425 15.9897 35.4425 22.9831C35.4425 29.9764 29.7656 35.6458 22.7631 35.6458C15.7945 35.6458 10.1176 29.9764 10.1176 22.9831C10.1176 15.9897 15.7945 10.3204 22.7631 10.3204ZM3.79492 22.9831C3.79492 32.1831 11.2734 39.6517 20.4855 39.6517C29.6976 39.6517 37.1761 32.1831 37.1761 22.9831C37.1761 13.7831 29.6976 6.31445 20.4855 6.31445C11.2734 6.3484 3.79492 13.7831 3.79492 22.9831Z" fill="url(#paint0_linear_2535_740)"/>
+                            </g>
+                            <defs>
+                                <linearGradient id="paint0_linear_2535_740" x1="3.80716" y1="22.9962" x2="37.1732" y2="22.9962" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="white"/>
+                                    <stop offset="1" stop-color="#E9CCE2"/>
+                                </linearGradient>
+                                <clipPath id="clip0_2535_740">
+                                    <rect width="46.0606" height="46" fill="white" transform="translate(0.939453)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div>
+                        <a href="`+jQuery('.language .lang-item-fa a').attr('href')+`">فا</a>
+                        <svg class="close-slide" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M17.4 0.613275C17.1509 0.363605 16.8127 0.223294 16.46 0.223294C16.1073 0.223294 15.7691 0.363605 15.52 0.613275L8.99996 7.11994L2.47996 0.599942C2.23085 0.350271 1.89265 0.209961 1.53996 0.209961C1.18727 0.209961 0.84907 0.350271 0.599961 0.599942C0.0799609 1.11994 0.0799609 1.95994 0.599961 2.47994L7.11996 8.99994L0.599961 15.5199C0.0799609 16.0399 0.0799609 16.8799 0.599961 17.3999C1.11996 17.9199 1.95996 17.9199 2.47996 17.3999L8.99996 10.8799L15.52 17.3999C16.04 17.9199 16.88 17.9199 17.4 17.3999C17.92 16.8799 17.92 16.0399 17.4 15.5199L10.88 8.99994L17.4 2.47994C17.9066 1.97327 17.9066 1.11994 17.4 0.613275Z" fill="white"/>
+                        </svg>
+                    </div>
+                </li>
+            `);
+        } else {
+            jQuery('.navbar > ul').prepend(`
+                <li class="not-menu-item">
+                    <div>
+                        <svg class="logo-slide" width="47" height="46" viewBox="0 0 47 46" fill="none">
+                            <g clip-path="url(#clip0_2535_740)">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M23.9528 0C11.2394 0 0.939453 10.2863 0.939453 22.983C0.939453 35.6797 11.2394 45.966 23.9528 45.966C36.6662 45.966 46.9661 35.6797 46.9661 22.983C47.0001 10.2863 36.7002 0 23.9528 0ZM32.621 35.1365C29.5276 38.2598 25.2105 40.1609 20.4855 40.1609C15.7264 40.1609 11.4433 38.2258 8.34994 35.1365C5.22258 32.0133 3.31897 27.7358 3.31897 22.983C3.31897 18.2303 5.25657 13.9528 8.34994 10.8635C11.4433 7.77417 15.7604 5.83911 20.4855 5.83911C25.2105 5.83911 29.5276 7.77417 32.621 10.8635C35.7144 13.9528 37.652 18.2642 37.652 22.983C37.652 27.7358 35.7484 32.0133 32.621 35.1365Z" fill="white"/>
+                                <path d="M22.7631 10.3204C29.7656 10.3204 35.4425 15.9897 35.4425 22.9831C35.4425 29.9764 29.7656 35.6458 22.7631 35.6458C15.7945 35.6458 10.1176 29.9764 10.1176 22.9831C10.1176 15.9897 15.7945 10.3204 22.7631 10.3204ZM3.79492 22.9831C3.79492 32.1831 11.2734 39.6517 20.4855 39.6517C29.6976 39.6517 37.1761 32.1831 37.1761 22.9831C37.1761 13.7831 29.6976 6.31445 20.4855 6.31445C11.2734 6.3484 3.79492 13.7831 3.79492 22.9831Z" fill="url(#paint0_linear_2535_740)"/>
+                            </g>
+                            <defs>
+                                <linearGradient id="paint0_linear_2535_740" x1="3.80716" y1="22.9962" x2="37.1732" y2="22.9962" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="white"/>
+                                    <stop offset="1" stop-color="#E9CCE2"/>
+                                </linearGradient>
+                                <clipPath id="clip0_2535_740">
+                                    <rect width="46.0606" height="46" fill="white" transform="translate(0.939453)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div>
+                        <a href="`+jQuery('.language .lang-item-en a').attr('href')+`">EN</a>
+                        <svg class="close-slide" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M17.4 0.613275C17.1509 0.363605 16.8127 0.223294 16.46 0.223294C16.1073 0.223294 15.7691 0.363605 15.52 0.613275L8.99996 7.11994L2.47996 0.599942C2.23085 0.350271 1.89265 0.209961 1.53996 0.209961C1.18727 0.209961 0.84907 0.350271 0.599961 0.599942C0.0799609 1.11994 0.0799609 1.95994 0.599961 2.47994L7.11996 8.99994L0.599961 15.5199C0.0799609 16.0399 0.0799609 16.8799 0.599961 17.3999C1.11996 17.9199 1.95996 17.9199 2.47996 17.3999L8.99996 10.8799L15.52 17.3999C16.04 17.9199 16.88 17.9199 17.4 17.3999C17.92 16.8799 17.92 16.0399 17.4 15.5199L10.88 8.99994L17.4 2.47994C17.9066 1.97327 17.9066 1.11994 17.4 0.613275Z" fill="white"/>
+                        </svg>
+                    </div>
+                </li>
+            `);
+        }
+    } else {
+        jQuery(".navbar ul li.not-menu-item").remove();
+    }
+});
+
+jQuery(document).on('click', '.back-darck', function() {
+    var current = jQuery(this);
+    if(jQuery(window).width() < 992) {
+        current.parents("body").css("overflow", "auto");
+        current.css("display", "none");
+        current.parents("body").find(".navbar").removeClass("active");
+        current.parents("body").find(".navbar ul").removeAttr("style");
+        current.parents("body").find(".navbar ul li.back").remove();
+        current.parents("body").find(".navbar ul li.not-menu-item").remove();
+    }
+});
+
+jQuery(document).on('click', '.close-slide', function() {
+    var current = jQuery(this);
+    if(jQuery(window).width() < 992) {
+        current.parents("body").css("overflow", "auto");
+        current.parents("body").find(".back-darck").css("display", "none");
+        current.parents("body").find(".navbar").removeClass("active");
+        current.parents("body").find(".navbar ul").removeAttr("style");
+        current.parents("body").find(".navbar ul li.back").remove();
+        current.parents("body").find(".navbar ul li.not-menu-item").remove();
+    }
+});
+
+jQuery(document).on('click', '.navbar li > a', function() {
+    var current = jQuery(this);
+    if(jQuery(window).width() < 992) {
+        if(current.parent().hasClass('back')) {
+            // current.parent().parent().removeAttr('style');
+            // current.parent().prev().remove();
+            // current.parent().remove();
+            return false
+        } else if(current.parent().hasClass('menu-item-has-children')) {
+            if(jQuery('html').attr('lang') == 'en-US') {
+                // var backItem = 'Back';
+                current.next().prepend(`
+                    <li class="not-menu-item" style="margin: 0;">
+                        <div>
+                            <svg class="logo-slide" width="47" height="46" viewBox="0 0 47 46" fill="none">
+                                <g clip-path="url(#clip0_2535_740)">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M23.9528 0C11.2394 0 0.939453 10.2863 0.939453 22.983C0.939453 35.6797 11.2394 45.966 23.9528 45.966C36.6662 45.966 46.9661 35.6797 46.9661 22.983C47.0001 10.2863 36.7002 0 23.9528 0ZM32.621 35.1365C29.5276 38.2598 25.2105 40.1609 20.4855 40.1609C15.7264 40.1609 11.4433 38.2258 8.34994 35.1365C5.22258 32.0133 3.31897 27.7358 3.31897 22.983C3.31897 18.2303 5.25657 13.9528 8.34994 10.8635C11.4433 7.77417 15.7604 5.83911 20.4855 5.83911C25.2105 5.83911 29.5276 7.77417 32.621 10.8635C35.7144 13.9528 37.652 18.2642 37.652 22.983C37.652 27.7358 35.7484 32.0133 32.621 35.1365Z" fill="white"/>
+                                    <path d="M22.7631 10.3204C29.7656 10.3204 35.4425 15.9897 35.4425 22.9831C35.4425 29.9764 29.7656 35.6458 22.7631 35.6458C15.7945 35.6458 10.1176 29.9764 10.1176 22.9831C10.1176 15.9897 15.7945 10.3204 22.7631 10.3204ZM3.79492 22.9831C3.79492 32.1831 11.2734 39.6517 20.4855 39.6517C29.6976 39.6517 37.1761 32.1831 37.1761 22.9831C37.1761 13.7831 29.6976 6.31445 20.4855 6.31445C11.2734 6.3484 3.79492 13.7831 3.79492 22.9831Z" fill="url(#paint0_linear_2535_740)"/>
+                                </g>
+                                <defs>
+                                    <linearGradient id="paint0_linear_2535_740" x1="3.80716" y1="22.9962" x2="37.1732" y2="22.9962" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="white"/>
+                                        <stop offset="1" stop-color="#E9CCE2"/>
+                                    </linearGradient>
+                                    <clipPath id="clip0_2535_740">
+                                        <rect width="46.0606" height="46" fill="white" transform="translate(0.939453)"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div>
+                            <a href="`+jQuery('.language .lang-item-fa a').attr('href')+`" style="margin: 0 40px 0 0;">فا</a>
+                        </div>
+                    </li>
+                    <li class="back">
+                        <a style="padding: 8px 16px 8px 16px;">
+                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="margin: 0 24px 0 0;">
+                                <path d="M20.055 9.67334H5.16169L11.6684 3.16668C12.1884 2.64668 12.1884 1.79334 11.6684 1.27334C11.4193 1.02367 11.0811 0.883362 10.7284 0.883362C10.3757 0.883362 10.0375 1.02367 9.78836 1.27334L1.00169 10.06C0.481694 10.58 0.481694 11.42 1.00169 11.94L9.78836 20.7267C10.3084 21.2467 11.1484 21.2467 11.6684 20.7267C12.1884 20.2067 12.1884 19.3667 11.6684 18.8467L5.16169 12.34H20.055C20.7884 12.34 21.3884 11.74 21.3884 11.0067C21.3884 10.2733 20.7884 9.67334 20.055 9.67334Z" fill="white"/>
+                            </svg>
+                            `+current.text()+`
+                        </a>
+                    </li>
+                `);
+                current.next().css('left', '0');
+            } else {
+                // var backItem = 'بازگشت';
+                current.next().prepend(`
+                    <li class="not-menu-item" style="margin: 0;">
+                        <div>
+                            <svg class="logo-slide" width="47" height="46" viewBox="0 0 47 46" fill="none">
+                                <g clip-path="url(#clip0_2535_740)">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M23.9528 0C11.2394 0 0.939453 10.2863 0.939453 22.983C0.939453 35.6797 11.2394 45.966 23.9528 45.966C36.6662 45.966 46.9661 35.6797 46.9661 22.983C47.0001 10.2863 36.7002 0 23.9528 0ZM32.621 35.1365C29.5276 38.2598 25.2105 40.1609 20.4855 40.1609C15.7264 40.1609 11.4433 38.2258 8.34994 35.1365C5.22258 32.0133 3.31897 27.7358 3.31897 22.983C3.31897 18.2303 5.25657 13.9528 8.34994 10.8635C11.4433 7.77417 15.7604 5.83911 20.4855 5.83911C25.2105 5.83911 29.5276 7.77417 32.621 10.8635C35.7144 13.9528 37.652 18.2642 37.652 22.983C37.652 27.7358 35.7484 32.0133 32.621 35.1365Z" fill="white"/>
+                                    <path d="M22.7631 10.3204C29.7656 10.3204 35.4425 15.9897 35.4425 22.9831C35.4425 29.9764 29.7656 35.6458 22.7631 35.6458C15.7945 35.6458 10.1176 29.9764 10.1176 22.9831C10.1176 15.9897 15.7945 10.3204 22.7631 10.3204ZM3.79492 22.9831C3.79492 32.1831 11.2734 39.6517 20.4855 39.6517C29.6976 39.6517 37.1761 32.1831 37.1761 22.9831C37.1761 13.7831 29.6976 6.31445 20.4855 6.31445C11.2734 6.3484 3.79492 13.7831 3.79492 22.9831Z" fill="url(#paint0_linear_2535_740)"/>
+                                </g>
+                                <defs>
+                                    <linearGradient id="paint0_linear_2535_740" x1="3.80716" y1="22.9962" x2="37.1732" y2="22.9962" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="white"/>
+                                        <stop offset="1" stop-color="#E9CCE2"/>
+                                    </linearGradient>
+                                    <clipPath id="clip0_2535_740">
+                                        <rect width="46.0606" height="46" fill="white" transform="translate(0.939453)"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div>
+                            <a href="`+jQuery('.language .lang-item-en a').attr('href')+`" style="margin: 0 0 0 40px;">EN</a>
+                        </div>
+                    </li>
+                    <li class="back">
+                        <a style="padding: 8px 16px 8px 16px;">
+                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="transform: rotate(180deg);margin: 0 0 0 24px;">
+                                <path d="M20.055 9.67334H5.16169L11.6684 3.16668C12.1884 2.64668 12.1884 1.79334 11.6684 1.27334C11.4193 1.02367 11.0811 0.883362 10.7284 0.883362C10.3757 0.883362 10.0375 1.02367 9.78836 1.27334L1.00169 10.06C0.481694 10.58 0.481694 11.42 1.00169 11.94L9.78836 20.7267C10.3084 21.2467 11.1484 21.2467 11.6684 20.7267C12.1884 20.2067 12.1884 19.3667 11.6684 18.8467L5.16169 12.34H20.055C20.7884 12.34 21.3884 11.74 21.3884 11.0067C21.3884 10.2733 20.7884 9.67334 20.055 9.67334Z" fill="white"/>
+                            </svg>
+                            `+current.text()+`
+                        </a>
+                    </li>
+                `);
+                current.next().css('right', '0');
+            }
+        } 
+    }
+});
+
+jQuery(document).on('click', '.navbar li.back a', function() {
+    var current = jQuery(this);
+    if(jQuery(window).width() < 992) {
+        if(current.parent().hasClass('back')) {
+            current.parent().parent().removeAttr('style');
+            current.parent().prev().remove();
+            current.parent().remove();
+            return false
+        }
+    }
+});
+
+function mobileMenu() {
+    jQuery('.navbar li.menu-item-has-children > a > svg').remove();
+    if(jQuery(window).width() < 992) {
+        if(jQuery('html').attr('lang') == 'en-US') {
+            jQuery('.navbar li.menu-item-has-children > a').append(`
+                <svg width="12" height="12" viewBox="0 0 12 20" fill="none">
+                    <path d="M7.22315 9.85519L0.502353 16.576C0.186288 16.8941 0.00922729 17.3246 0.00996452 17.7731C0.0107027 18.2215 0.189179 18.6514 0.506289 18.9685C0.823399 19.2856 1.25328 19.4641 1.70174 19.4648C2.15021 19.4656 2.58067 19.2885 2.89882 18.9725L10.7022 11.1691C10.7448 11.1339 10.7901 11.1014 10.8293 11.0649C11.1454 10.7414 11.3223 10.3071 11.3223 9.85485C11.3223 9.40261 11.1454 8.96831 10.8293 8.64479C10.7894 8.60557 10.7441 8.57717 10.7022 8.54133L3.1808 1.01991C2.86239 0.703274 2.43161 0.525539 1.98256 0.525539C1.53352 0.525539 1.10273 0.703274 0.784328 1.01991C0.467694 1.33831 0.28996 1.7691 0.28996 2.21814C0.28996 2.66719 0.467694 3.09797 0.784329 3.41638L7.22315 9.85519Z" fill="#FFFFFF"></path>
+                    <path d="M7.22315 9.85519L0.502353 16.576C0.186288 16.8941 0.00922729 17.3246 0.00996452 17.7731C0.0107027 18.2215 0.189179 18.6514 0.506289 18.9685C0.823399 19.2856 1.25328 19.4641 1.70174 19.4648C2.15021 19.4656 2.58067 19.2885 2.89882 18.9725L10.7022 11.1691C10.7448 11.1339 10.7901 11.1014 10.8293 11.0649C11.1454 10.7414 11.3223 10.3071 11.3223 9.85485C11.3223 9.40261 11.1454 8.96831 10.8293 8.64479C10.7894 8.60557 10.7441 8.57717 10.7022 8.54133L3.1808 1.01991C2.86239 0.703274 2.43161 0.525539 1.98256 0.525539C1.53352 0.525539 1.10273 0.703274 0.784328 1.01991C0.467694 1.33831 0.28996 1.7691 0.28996 2.21814C0.28996 2.66719 0.467694 3.09797 0.784329 3.41638L7.22315 9.85519Z" fill="#FFFFFF" fill-opacity="0.2"></path>
+                </svg>
+            `);
+        } else {
+            jQuery('.navbar li.menu-item-has-children > a').append(`
+                <svg width="12" height="12" viewBox="0 0 12 20" fill="none" style="transform: rotate(-180deg);">
+                    <path d="M7.22315 9.85519L0.502353 16.576C0.186288 16.8941 0.00922729 17.3246 0.00996452 17.7731C0.0107027 18.2215 0.189179 18.6514 0.506289 18.9685C0.823399 19.2856 1.25328 19.4641 1.70174 19.4648C2.15021 19.4656 2.58067 19.2885 2.89882 18.9725L10.7022 11.1691C10.7448 11.1339 10.7901 11.1014 10.8293 11.0649C11.1454 10.7414 11.3223 10.3071 11.3223 9.85485C11.3223 9.40261 11.1454 8.96831 10.8293 8.64479C10.7894 8.60557 10.7441 8.57717 10.7022 8.54133L3.1808 1.01991C2.86239 0.703274 2.43161 0.525539 1.98256 0.525539C1.53352 0.525539 1.10273 0.703274 0.784328 1.01991C0.467694 1.33831 0.28996 1.7691 0.28996 2.21814C0.28996 2.66719 0.467694 3.09797 0.784329 3.41638L7.22315 9.85519Z" fill="#FFFFFF"></path>
+                    <path d="M7.22315 9.85519L0.502353 16.576C0.186288 16.8941 0.00922729 17.3246 0.00996452 17.7731C0.0107027 18.2215 0.189179 18.6514 0.506289 18.9685C0.823399 19.2856 1.25328 19.4641 1.70174 19.4648C2.15021 19.4656 2.58067 19.2885 2.89882 18.9725L10.7022 11.1691C10.7448 11.1339 10.7901 11.1014 10.8293 11.0649C11.1454 10.7414 11.3223 10.3071 11.3223 9.85485C11.3223 9.40261 11.1454 8.96831 10.8293 8.64479C10.7894 8.60557 10.7441 8.57717 10.7022 8.54133L3.1808 1.01991C2.86239 0.703274 2.43161 0.525539 1.98256 0.525539C1.53352 0.525539 1.10273 0.703274 0.784328 1.01991C0.467694 1.33831 0.28996 1.7691 0.28996 2.21814C0.28996 2.66719 0.467694 3.09797 0.784329 3.41638L7.22315 9.85519Z" fill="#FFFFFF" fill-opacity="0.2"></path>
+                </svg>
+            `);
+        }
+    } else {
+        jQuery("body").css("overflow", "auto");
+        jQuery('.back-darck').css("display", "none");
+        jQuery(".navbar").removeClass("active");
+        jQuery(".navbar ul").removeAttr("style");
+        jQuery(".navbar ul li.back").remove();
+    }
+}
+
+jQuery(".scroll-to-top").on("click", function() {
+    jQuery("html, body").animate({
+        scrollTop: jQuery("body").offset().top
+    }, 1000);
+});
+
+jQuery('.main-header .nav .main-menu .navbar > ul > li > ul').mouseover(function() {
+    if(jQuery(window).width() > 992) {
+        jQuery(this).parent().addClass('hover-yes');
+    }
+});
+jQuery('.main-header .nav .main-menu .navbar > ul > li > ul').mouseout(function() {
+    if(jQuery(window).width() > 992) {
+        jQuery(this).parent().removeClass('hover-yes');
+    }
+});
+
+jQuery('.main-header .nav .main-menu .navbar > ul > li > ul > li > ul').mouseover(function() {
+    if(jQuery(window).width() > 992) {
+        jQuery(this).parent().addClass('hover-yes');
+    }
+});
+jQuery('.main-header .nav .main-menu .navbar > ul > li > ul > li > ul').mouseout(function() {
+    if(jQuery(window).width() > 992) {
+        jQuery(this).parent().removeClass('hover-yes');
+    }
+});
+
+// Fixed Header
+window.onscroll = function() {fixedHeader()};
+var topButton = document.querySelector(".scroll-to-top");
+var chatButton = document.querySelector(".chat-btn");
+var header = document.querySelector(".main-header");
+var sticky = header.offsetTop;
+function fixedHeader() {
+    if(window.pageYOffset > sticky) {
+        header.classList.add("is-fixed");
+    } else {
+        header.classList.remove("is-fixed");
+    }
+
+    if(window.pageYOffset > window.innerHeight) {
+        topButton.classList.add("active");
+        chatButton.classList.add("active");
+    } else {
+        topButton.classList.remove("active");
+        chatButton.classList.remove("active");
+    }
+}
+
+
+jQuery(".navbar > .menu > li").click(function() {
+    console.log(this);
+    if(!jQuery(this).hasClass('menu_active')) {
+        jQuery('.back-darck').css('display' , 'block')
+        let leftArrow = `<svg class="left_arrow_pur" width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.33473 13.0101C7.00806 13.3368 6.48139 13.3368 6.15473 13.0101L0.614727 7.47012C0.354727 7.21012 0.354727 6.79012 0.614727 6.53012L6.15473 0.990117C6.48139 0.663451 7.00806 0.663451 7.33473 0.990117C7.66139 1.31678 7.66139 1.84345 7.33473 2.17012L2.50806 7.00345L7.34139 11.8368C7.66139 12.1568 7.66139 12.6901 7.33473 13.0101Z" fill="#A72B77"/>
+    </svg>`
+        let active_menus = $(".navbar > .menu > li")
+        let children = jQuery(this).find('ul > li')
+        console.log(this);
+        for (const menu of active_menus ) {
+            menu.classList.remove('menu_active')
+        }
+        if(jQuery(window).width() > 992) {
+            for (const child of children ) {
+                if(jQuery(child).hasClass('sub_menu_active')) {
+                    child.classList.remove('sub_menu_active')
+                }
+                
+            }
+        }
+        if(jQuery(window).width() > 992) {
+            children[0].classList.add('sub_menu_active')
+        }
+        jQuery(this).addClass('menu_active');
+        // insertIconeInElement(jQuery(children[0]).children('a') , leftArrow , 'left_arrow_pur' ,'end')
+    }
+})
+jQuery(".navbar > .menu > li > ul > li").click(function() {
+    if(jQuery(window).width() > 992) {
+        let leftArrow = `<svg class="left_arrow_pur" width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.33473 13.0101C7.00806 13.3368 6.48139 13.3368 6.15473 13.0101L0.614727 7.47012C0.354727 7.21012 0.354727 6.79012 0.614727 6.53012L6.15473 0.990117C6.48139 0.663451 7.00806 0.663451 7.33473 0.990117C7.66139 1.31678 7.66139 1.84345 7.33473 2.17012L2.50806 7.00345L7.34139 11.8368C7.66139 12.1568 7.66139 12.6901 7.33473 13.0101Z" fill="#A72B77"/>
+      </svg>`
+        let active_menus = $(".navbar > .menu > li > ul > li")
+        for (const menu of active_menus ) {
+            menu.classList.remove('sub_menu_active')
+        }
+        jQuery(this).addClass('sub_menu_active');
+    } 
+    // insertIconeInElement(jQuery(this).children('a') , leftArrow , 'left_arrow_pur' , 'end')
+})
+
+const insertIconeInElement = (element , icone , className , position) => {
+    const icone_exist = jQuery(element).children(`svg.${className}`)
+    console.log(icone_exist);
+    if (!icone_exist[0]) {
+        if(position) {
+            element.append(icone)
+        }
+    }
+}
+
+jQuery('.back-darck').click(function() {
+    jQuery('.menu_active').removeClass('menu_active')
+    const subs = jQuery('.sub_menu_active')
+    for (const sub of subs) {
+        jQuery(sub).removeClass('sub_menu_active')
+    }
+    jQuery('.back-darck').css('display' , 'none')
+})
+
+jQuery(document).on('click', '.chat-btn', function() {
+    jQuery('.chat-box').addClass('active');
+})
+
+jQuery(document).on('click', '.chat-close', function() {
+    jQuery('.chat-box').removeClass('active');
+})

@@ -1,0 +1,23 @@
+jQuery(document).ready(function() {
+    var indexSlide = jQuery(".object-slider");
+    var indexSlideTime = indexSlide.data("timeSlide");
+    setTimeout(function() {
+        indexSlide.find(".owl-dots .owl-dot.active").removeClass("active");
+    },25);
+    setTimeout(function() {
+        indexSlide.find(".owl-dots .owl-dot:nth-child(1)").addClass("active");
+    },50);
+
+    // Carousel Setting
+    indexSlide.owlCarousel({
+        items:1, 
+        mouseDrag:false,
+        touchDrag:false,
+        nav:false,
+        dots:true,
+        loop:true,
+        autoplay:true,
+        autoplayTimeout:indexSlideTime,
+        margin:0
+    });
+});

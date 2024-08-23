@@ -1,0 +1,99 @@
+jQuery(document).ready(function() {
+    var veSlideImage = jQuery(".ve-slider-image");
+    var veSlideTopText = jQuery(".ve-slider-top-text");
+    var veSlideBottomText = jQuery(".ve-slider-bottom-text");
+
+    var veSlideTopTextTime = veSlideImage.data("timeSlide");
+
+    // var timeVeSlideBottomText;
+
+    // Carousel Setting
+    veSlideImage.owlCarousel({
+        items:1, 
+        mouseDrag:false,
+        touchDrag:false,
+        nav:false,
+        dots:false,
+        loop:true,
+        autoplay:true,
+        autoplayTimeout:veSlideTopTextTime,
+        // URLhashListener:true,
+        // startPosition: '#slide--1',
+        margin:0
+    });
+
+    // window.location.hash = '#slide--1'
+    jQuery('.vertical-slider > li').removeClass("is-active-slide");
+    jQuery('.vertical-slider > li:first-child').addClass("is-active-slide");
+
+    jQuery('.vertical-slider > li').first().find(".ve-slider-bottom-text").removeClass("is-active-sub-slide");
+    // jQuery('.vertical-slider > li').first().find(".ve-slider-bottom-text").find(".detail-body .body").css("display", "none");
+    // Have Chage for Remove Auto Slide (Change Active of Last to First & Class Body of Noe to Block)
+    // jQuery('.vertical-slider > li').first().find(".ve-slider-bottom-text:first-child").addClass("is-active-sub-slide");
+    // jQuery('.vertical-slider > li').first().find(".ve-slider-bottom-text:first-child").find(".detail-body .body").css("display", "block");
+
+    // jQuery('a.ve-slider-top-text').parent().removeClass("is-active-slide");
+    // jQuery('a.ve-slider-top-text').next().slideUp(500);
+    // jQuery('a[move="#slide--1"]').parent().addClass("is-active-slide");
+    // jQuery('a[move="#slide--1"]').next().slideDown(500);
+
+    // jQuery('a.ve-slider-top-text').next().find(".ve-slider-bottom-text").removeClass("is-active-sub-slide");
+    // jQuery('a.ve-slider-top-text').next().find(".ve-slider-bottom-text").find(".detail-body .body").css("display", "none");
+    // // Have Chage for Remove Auto Slide (Change Active of Last to First)
+    // jQuery('a[move="#slide--1"]').next().find(".ve-slider-bottom-text").first().addClass("is-active-sub-slide");
+    // jQuery('a[move="#slide--1"]').next().find(".ve-slider-bottom-text").first().find(".detail-body .body").css("display", "block");
+
+    // veSlideImage.on('translate.owl.carousel', function() {
+    //     setTimeout(function() {
+    //         var currentSlide = jQuery('.ve-slider-image .owl-item.active > .slide').attr('hash');
+    
+    //         jQuery('a.ve-slider-top-text').parent().removeClass("is-active-slide");
+    //         jQuery('a.ve-slider-top-text').next().slideUp(500);
+    //         jQuery('a[move="#'+currentSlide+'"]').parent().addClass("is-active-slide");
+    //         jQuery('a[move="#'+currentSlide+'"]').next().slideDown(500);
+    
+    //         jQuery('a.ve-slider-top-text').next().find(".ve-slider-bottom-text").removeClass("is-active-sub-slide");
+    //         jQuery('a.ve-slider-top-text').next().find(".ve-slider-bottom-text").find(".detail-body .body").css("display", "none");
+    //         // Have Chage for Remove Auto Slide (Change Active of Last to First)
+    //         jQuery('a[move="#'+currentSlide+'"]').next().find(".ve-slider-bottom-text").first().addClass("is-active-sub-slide");
+    //         jQuery('a[move="#'+currentSlide+'"]').next().find(".ve-slider-bottom-text").first().find(".detail-body .body").css("display", "block");
+    //     }, 250);
+    // });
+
+    // veSlideTopText.on('click',function(){
+    //     veSlideImage.trigger('stop.owl.autoplay');
+    //     veSlideImage.trigger('play.owl.autoplay',[veSlideTopTextTime]);
+    // });
+
+    // veSlideBottomText.find(".detail-head").on('mouseover',function() {
+    //     var currentSub = jQuery(this);
+    //     if(!currentSub.parent().hasClass("is-active-sub-slide")) {
+    //         veSlideBottomText.removeClass("is-active-sub-slide");
+    //         veSlideBottomText.find(".detail-body .body").slideUp(500);
+    //         currentSub.parent().addClass("is-active-sub-slide");
+    //         currentSub.parent().find(".detail-body .body").slideDown(500);
+    //     }
+    // });
+
+    // accSlideBottomText();
+    // function accSlideBottomText() {
+    //     var currentSlide = window.location.href.split("#")[1];
+
+    //     var currentSubSlide = jQuery('.ve-slider-bottom-text.is-active-sub-slide');
+    //     var nextSubSlide = currentSubSlide.next().length ? currentSubSlide.next(): currentSubSlide.siblings().first();
+
+    //     if (window.location.hash) {
+    //         var veSlideBottomTextTime = veSlideTopTextTime / jQuery('a[href="#'+currentSlide+'"]').next().find('.ve-slider-bottom-text').length;
+    //     } else {
+    //         var veSlideBottomTextTime = veSlideTopTextTime / jQuery('.vertical-slider > li:first-child').find('.ve-slider-bottom-text').length;
+    //     }
+
+    //     currentSubSlide.removeClass("is-active-sub-slide");
+    //     currentSubSlide.find(".detail-body .body").slideUp(500);
+    //     nextSubSlide.addClass("is-active-sub-slide");
+    //     nextSubSlide.find(".detail-body .body").slideDown(500);
+
+    //     clearInterval(timeVeSlideBottomText);
+    //     timeVeSlideBottomText = setTimeout(accSlideBottomText, veSlideBottomTextTime);
+    // };
+});

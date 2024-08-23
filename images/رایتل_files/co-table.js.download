@@ -1,0 +1,80 @@
+jQuery(document).find("table:not(.mobile-version)").each(function() {
+    var current = jQuery(this)
+    if(current.hasClass('static') == false && current.hasClass('form-table') == false) {
+        var column = current.find("tr:first-child > td").length;
+        current.find("tr:odd td").attr("colspan", column);
+    }
+});
+
+jQuery(document).find("tr:not(.is-head) td.dropdown").on("click", function() {
+    var element = jQuery(this);
+    var isText = element.text();
+    if(!element.hasClass("on-show")) {
+        element.parents("table").find("td").removeClass("on-show");
+        element.parents("table").find("tr:odd td").text("").slideUp(500);
+        element.addClass("on-show");
+        element.parent().next().find("td").text(isText).slideDown(500);
+    } else {
+        element.parents("table").find("td").removeClass("on-show");
+        element.parent().next().find("td").text("").slideUp(500);
+    }
+});
+
+// scrollTable(0);
+
+// jQuery(window).on("resize", function() {
+//     scrollTable(0);
+// });
+
+// jQuery(document).on("click", ".rightel-tab .tab-nav .item", function() {
+//     scrollTable(1000);
+// });
+
+// jQuery(document).on("click", ".rightel-accordion .accordion-nav", function() {
+//     scrollTable(25);
+// });
+
+// function scrollTable(time) {
+//     setTimeout(function() {
+//         jQuery(document).find(".by-scroll tr td.fixed-td").remove();
+//         jQuery(document).find(".by-scroll").each(function() {
+//             var table = jQuery(this);
+//             var element = '';
+//             if(table.find('table').hasClass('static') == true) {
+//                 element = table.find('table tr td:first-child');
+//             } else {    
+//                 element = table.find('table tr:even td:first-child');
+//             }
+//             var columnWidth = Math.max.apply(Math, element.map(function(){ return $(this).width(); }).get()) + 16;
+//             element.each(function() {
+//                 var current = jQuery(this);
+//                 var columnHeight = '';
+//                 columnHeight = current.height() + 48;
+//                 if((current.height() + 48) < current.parent().height()) {
+//                     columnHeight = current.parent().height();
+//                 }
+//                 var columnData = current.html();
+//                 current.before(`
+//                     <td class="fixed-td" style="display: flex;justify-content: center;align-items: center;width: `+columnWidth+`px;height: `+columnHeight+`px;">`+columnData+`</td>
+//                 `);
+//             });
+//         });
+//     },time);
+// }
+
+for(const table of document.querySelectorAll('table.mobile-version:not(.static)')) {
+    let tr = table.querySelectorAll('tr').length
+    let trHead = table.querySelectorAll('tr.head').length
+    let tdHead;
+    let tdColor = '#FFFFFF';
+    for(i = trHead; i < tr; i++) {
+        if(tdHead < trHead -1) {
+            tdHead++;
+        } else {
+            tdHead = 0;
+            tdColor == '#FFFFFF' ? tdColor = '#E8E8E8' : tdColor = '#FFFFFF'
+        }
+        table.querySelectorAll('tr')[i].querySelectorAll('td')[0].innerHTML = table.querySelectorAll('tr')[tdHead].querySelectorAll('td')[1].innerHTML
+        table.querySelectorAll('tr')[i].querySelectorAll('td')[1].style.cssText = `background: ${tdColor};`;
+    } 
+}
