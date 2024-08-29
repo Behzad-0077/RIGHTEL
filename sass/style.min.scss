@@ -199,6 +199,15 @@ h1.suggestion{
 /* special suggestion bottom*/
 section.special-suggestion-bottom{
   div{
+    background-color  : #e6007e;
+    border-radius     : 20px;
+    font-size         : 15px;
+    font-weight       : 10px;
+    align-items       : center;
+    justify-content   : center;
+    text-align        : center;  
+    color             : #f2f2f2;
+    text-decoration   : none;
       a{  
           align-items       : center;
           justify-content   : center;
@@ -208,11 +217,55 @@ section.special-suggestion-bottom{
           background-color  : #e6007e;
           border-radius     : 20px;
           font-size         : 15px;
-          font-weight       : 10px;
-          top: 1rem;
-          right: 1rem;
-          
+          font-weight       : 15px;
 
     }
   }
 }
+
+/* ITEM */
+section.item{
+  div{
+    .card{
+      border: none !important;
+      border-radius: 10px;
+      background-color: white;
+      .card-header{
+        background-color: white !important;
+        img{
+          transform: scale(3);
+          transition: 1s;
+        }
+      }
+      img{
+        border-radius: 10px;
+      }
+     
+      overflow: hidden;
+    }
+  }
+  
+}
+body{
+  overflow-x: hidden;
+}
+.bg-orange{
+  background-color: #c8d400 !important;
+}
+
+/* BACK */
+section{
+  .back{
+    background-image: url(../images/Bg-2.png);
+    background-size: cover;
+    height: 30rem;
+    position: relative;
+    .mn{
+      top: 20rem;
+      left: 5rem;
+    }
+    }
+
+}
+
+
